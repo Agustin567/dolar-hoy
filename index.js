@@ -1,34 +1,34 @@
-importar { Terminal } desde "@es-js/terminal"
-importar { obtenerJson } desde "https://desarrollo-aplicaciones.vercel.app/2024/code/obtener-json.js"
-importar { validarSecreto } desde "https://desarrollo-aplicaciones.vercel.app/2024/code/validar-secreto.js"
+import { Terminal } from "@es-js/terminal"
+import { obtenerJson } from "https://desarrollo-aplicaciones.vercel.app/2024/code/obtener-json.js"
+import { validarSecreto } from "https://desarrollo-aplicaciones.vercel.app/2024/code/validar-secreto.js"
 
-asincrono funcion inicio() {
+async function inicio() {
   Terminal.escribir("Hola! Ingresa la palabra secreta:")
 
-  var secreto = esperar Terminal.leer()
+  var secreto = await Terminal.leer()
 
   var dni = "46005414"
 
-  si (esperar validarSecreto(dni, secreto)) {
-    esperar mostrarCotizacion()
-  } sino {
+  if (await validarSecreto(dni, secreto)) {
+    await mostrarCotizacion()
+  } else {
     Terminal.escribir("Palabra secreta inválida")
   }
 
   Terminal.escribir("Presiona ENTER para volver a ingresar")
 
-  esperar Terminal.leerEnter()
+  await Terminal.leerEnter()
 
   Terminal.limpiar()
 
   inicio()
 }
 
-asincrono funcion mostrarCotizacion() {
+async function mostrarCotizacion() {
   Terminal.escribir("Cargando cotización...")
 
-  intentar {
-    var datos = esperar obtenerJson("https://criptoya.com/api/dolar")
+  try {
+    var datos = await obtenerJson("https://criptoya.com/api/dolar")
     var dolarBlue = datos.blue
 
     Terminal.limpiar()
@@ -39,7 +39,7 @@ asincrono funcion mostrarCotizacion() {
     var promedio = (dolarBlue.ask + dolarBlue.bid) / 2
     Terminal.escribir("Promedio: $" + promedio)
     Terminal.escribir("-------------------------------------")
-  } capturar (error) {
+  } catch (error) {
     Terminal.escribir("Error al obtener la cotización.")
   }
 }
